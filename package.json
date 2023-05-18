@@ -1,0 +1,13 @@
+{
+	"scripts": {
+		"start": "webpack-dev-server --open",
+		"webpack": "webpack -d --watch"
+	},
+	"dependencies": {
+		"webpack": "^3.0.0"
+	},
+	"devDependencies": {
+		"webpack-dev-server": "^2.5.0",
+		"html-webpack-plugin": "^2.30.1"
+	}
+}
