@@ -1,11 +1,11 @@
 import * as dat from "dat.gui";
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 const gui = new dat.GUI();
-const canvas = document.querySelector("canvas");
-const c = canvas.getContext("2d");
-
-canvas.width = innerWidth;
-canvas.height = innerHeight;
 
 const wave = {
 	y: canvas.height / 2,
@@ -20,7 +20,7 @@ const strokeColor = {
 	l: 50,
 };
 
-const backgroundColor = {
+const background = {
 	r: 0,
 	g: 0,
 	b: 0,
@@ -33,31 +33,28 @@ waveFolder.add(wave, "length", -0.01, 0.01);
 waveFolder.add(wave, "amplitude", -300, 300);
 waveFolder.add(wave, "frequency", -0.01, 1);
 waveFolder.open();
-
-const strokeFolder = gui.addFolder("stroke");
-strokeFolder.add(strokeColor, "h", 0, 255);
-strokeFolder.add(strokeColor, "s", 0, 100);
-strokeFolder.add(strokeColor, "l", 0, 100);
-strokeFolder.open();
-
-const backgroundFolder = gui.addFolder("background");
-backgroundFolder.add(backgroundColor, "r", 0, 255);
-backgroundFolder.add(backgroundColor, "g", 0, 255);
-backgroundFolder.add(backgroundColor, "b", 0, 255);
-backgroundFolder.add(backgroundColor, "a", 0, 1);
+const strokeColorFolder = gui.addFolder("stroke color");
+strokeColorFolder.add(strokeColor, "h", 0, 255);
+strokeColorFolder.add(strokeColor, "s", 0, 100);
+strokeColorFolder.add(strokeColor, "l", 0, 100);
+strokeColorFolder.open();
+const backgroundFolder = gui.addFolder("background color");
+backgroundFolder.add(background, "r", 0, 255);
+backgroundFolder.add(background, "g", 0, 255);
+backgroundFolder.add(background, "b", 0, 255);
+backgroundFolder.add(background, "a", 0, 1.0);
 backgroundFolder.open();
 
 let increment = wave.frequency;
-function animate() {
-	requestAnimationFrame(animate);
-	c.fillStyle = `rgba(${backgroundColor.r}, ${backgroundColor.g}, ${backgroundColor.b}, ${backgroundColor.a})`;
-	c.fillRect(0, 0, canvas.width, canvas.height);
-
-	c.beginPath();
-	c.moveTo(0, canvas.height / 2);
-
+function draw() {
+	requestAnimationFrame(draw);
+	// ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = `rgba(${background.r},${background.g},${background.b},${background.a})`;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.beginPath();
+	ctx.moveTo(0, canvas.height / 2);
 	for (let i = 0; i < canvas.width; i++) {
-		c.lineTo(
+		ctx.lineTo(
 			i,
 			wave.y +
 				Math.sin(i * wave.length + increment) *
@@ -66,11 +63,11 @@ function animate() {
 		);
 	}
 
-	c.strokeStyle = `hsl(${Math.abs(strokeColor.h * Math.sin(increment))}, ${
+	ctx.strokeStyle = `hsl(${Math.abs(strokeColor.h * Math.sin(increment))}, ${
 		strokeColor.s
 	}%, ${strokeColor.l}%)`;
-	c.stroke();
 	increment += wave.frequency;
+	ctx.stroke();
 }
 
-animate();
+draw();
