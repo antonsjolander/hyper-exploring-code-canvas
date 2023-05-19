@@ -10,21 +10,21 @@ img.src =
 	"http://pixel.nymag.com/imgs/daily/vulture/2016/08/11/11-obama-sex-playlist.w529.h529.jpg";
 img.onload = pixelate;
 
-// ctx.mozImageSmoothingEnabled = false;
-// ctx.webkitImageSmoothingEnabled = false;
-// ctx.imageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 
 const blocks = {
 	value: 5,
 };
 
-gui.add(blocks, "value", 0, 50);
+gui.add(blocks, "value", 0, 50).onChange(pixelate);
 
 function pixelate() {
 	const size = blocks.value * 0.01;
 	const w = canvas.width * size;
 	const h = canvas.height * size;
 
-	ctx.drawImage(img, 0, 0, canvas.width, canvas.width);
+	ctx.drawImage(img, 0, 0, w, h);
 	ctx.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height);
 }
