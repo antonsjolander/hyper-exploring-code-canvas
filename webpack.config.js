@@ -11,6 +11,17 @@ module.exports = {
 		port: 8080,
 		historyApiFallback: true,
 		static: "./dist",
+		devMiddleware: {
+			index: true,
+			mimeTypes: {
+				js: "text/javascript",
+				css: "text/css",
+				html: "text/html",
+			},
+			publicPath: "/publicPathForDevServe",
+			serverSideRender: true,
+			writeToDisk: true,
+		},
 	},
 	entry: {
 		main: path.resolve(__dirname, "./src/app.js"),
